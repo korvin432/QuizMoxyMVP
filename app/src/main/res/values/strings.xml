@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Quiz Moxy MVP</string>
+    <string name="title_select_quiz">Quiz</string>
+    <string name="title_quiz">Quiz</string>
+    <string name="title_statistics">Statistics</string>
+</resources>
