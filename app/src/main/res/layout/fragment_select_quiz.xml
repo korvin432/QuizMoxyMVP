@@ -1,61 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/select_param"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Select parameters"
-        android:textSize="30sp" />
-
-
-    <TextView
-        android:id="@+id/select_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/select_param"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:text="Category"
-        android:textSize="24sp" />
-
-    <Spinner
-        android:id="@+id/category_spinner"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/select_category"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/select_param"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Select parameters"
+            android:textSize="30sp" />
 
 
-    <TextView
-        android:id="@+id/select_difficulty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/category_spinner"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Difficulty"
-        android:textSize="24sp" />
+        <TextView
+            android:id="@+id/select_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/select_param"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="Category"
+            android:textSize="24sp" />
 
-    <Spinner
-        android:id="@+id/difficulty_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/select_difficulty"/>
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select_category" />
 
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Start"
-        android:layout_below="@id/difficulty_spinner"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/select_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/category_spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="Difficulty"
+            android:textSize="24sp" />
+
+        <Spinner
+            android:id="@+id/difficulty_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select_difficulty"
+            android:entries="@array/difficulty" />
+
+        <Button
+            android:id="@+id/start_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/difficulty_spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="Start" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

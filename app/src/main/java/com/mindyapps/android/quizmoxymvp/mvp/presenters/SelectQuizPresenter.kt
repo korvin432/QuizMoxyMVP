@@ -11,13 +11,13 @@ class SelectQuizPresenter : MvpPresenter<SelectQuizView>() {
 
     var list: List<Category> = ArrayList()
 
-    suspend fun getCategories(): List<String> {
+    suspend fun getCategories(): List<Category> {
         val quizApi = QuizApi()
-        val names: MutableList<String> = ArrayList()
+       // val names: MutableList<String> = ArrayList()
         val currentCategoryResult = quizApi.getCategoriesAsync()
         list = currentCategoryResult.category
-        list.forEach { names.add(it.name) }
-        return names
+        //list.forEach { names.add(it.name) }
+        return list
     }
 
 }
