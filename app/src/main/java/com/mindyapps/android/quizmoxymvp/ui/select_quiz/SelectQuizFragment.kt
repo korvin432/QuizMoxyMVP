@@ -6,22 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.mindyapps.android.quizmoxymvp.R
 import com.mindyapps.android.quizmoxymvp.mvp.models.Category
 import com.mindyapps.android.quizmoxymvp.mvp.views.SelectQuizView
-import com.mindyapps.android.quizmoxymvp.network.QuizApi
 import com.mindyapps.android.quizmoxymvp.mvp.presenters.SelectQuizPresenter
 import com.mindyapps.android.quizmoxymvp.ui.adapters.SpinnerAdapter
-import kotlinx.android.synthetic.main.fragment_select_quiz.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
-
-class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView, AdapterView.OnItemSelectedListener {
+class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView {
 
     @JvmField
     @InjectPresenter
@@ -31,6 +30,8 @@ class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView, AdapterView.O
     private lateinit var difficultySpinner: Spinner
     private lateinit var adapter: SpinnerAdapter
     private lateinit var startButton: Button
+
+    lateinit var navController: NavController
     private var categoryId: Int = -1
 
     override fun onCreateView(
@@ -44,38 +45,38 @@ class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView, AdapterView.O
         difficultySpinner = root.findViewById(R.id.difficulty_spinner)
         startButton = root.findViewById(R.id.start_button)
 
-        categorySpinner.onItemSelectedListener = this
-        setCategoryItems()
-
         startButton.setOnClickListener {
-            Log.d("qwwe", "Selected quiz ${categorySpinner.selectedItem} " +
-                    "with id $select_category and dif ${difficultySpinner.selectedItem}")
+            val bundle = bundleOf(
+                "categoryId" to categoryId,
+                "difficulty" to difficultySpinner.selectedItem.toString().toLowerCase()
+            )
+            navController.navigate(
+                R.id.action_navigation_select_quiz_to_quizFragment,
+                bundle
+            )
+        }
+
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                categoryId = adapter.getItem(p2).id
+                presenter!!.selectedPosition = p2
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
         return root
     }
 
-
-    override fun setCategoryItems() {
-        CoroutineScope(Main).launch {
-            adapter = SpinnerAdapter(activity!!.applicationContext, presenter!!.getCategories())
-            withContext(Main){
-                categorySpinner.adapter = adapter
-            }
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
     }
 
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        when(p0!!.id){
-            R.id.category_spinner -> {
-                val category = adapter.getItem(p2)
-                categoryId = category.id
-            }
-        }
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-
+    override fun makeSpinnerClickable(list: List<Category>) {
+        adapter = SpinnerAdapter(activity!!.applicationContext, list)
+        categorySpinner.adapter = adapter
+        categorySpinner.setSelection(presenter!!.selectedPosition)
     }
 
 }

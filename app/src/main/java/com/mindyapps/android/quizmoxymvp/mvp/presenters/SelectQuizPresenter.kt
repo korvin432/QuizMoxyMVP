@@ -1,23 +1,35 @@
 package com.mindyapps.android.quizmoxymvp.mvp.presenters
 
+import android.util.Log
 import com.mindyapps.android.quizmoxymvp.mvp.models.Category
 import com.mindyapps.android.quizmoxymvp.mvp.views.SelectQuizView
 import com.mindyapps.android.quizmoxymvp.network.QuizApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import moxy.InjectViewState
 import moxy.MvpPresenter
 
 @InjectViewState
 class SelectQuizPresenter : MvpPresenter<SelectQuizView>() {
 
-    var list: List<Category> = ArrayList()
+    var selectedPosition = 0
 
-    suspend fun getCategories(): List<Category> {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        CoroutineScope(IO).launch {
+            getCategories()
+        }
+    }
+
+     private suspend fun getCategories() {
         val quizApi = QuizApi()
-       // val names: MutableList<String> = ArrayList()
-        val currentCategoryResult = quizApi.getCategoriesAsync()
-        list = currentCategoryResult.category
-        //list.forEach { names.add(it.name) }
-        return list
+        val currentCategoryResult = quizApi.getCategories()
+         withContext(Main){
+             viewState.makeSpinnerClickable(currentCategoryResult.category)
+         }
     }
 
 }
