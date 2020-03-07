@@ -14,7 +14,6 @@ import moxy.MvpPresenter
 
 @InjectViewState
 class SelectQuizPresenter : MvpPresenter<SelectQuizView>() {
-
     var selectedPosition = 0
 
     override fun onFirstViewAttach() {

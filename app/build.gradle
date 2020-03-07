@@ -54,13 +54,11 @@ dependencies {
 
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
 
-    def moxyVersion = "2.1.1"
-
     // moxy
+    def moxyVersion = "2.1.1"
     implementation "com.github.moxy-community:moxy:$moxyVersion"
     implementation "com.github.moxy-community:moxy-app-compat:$moxyVersion"
     kapt "com.github.moxy-community:moxy-compiler:$moxyVersion"
-
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:2.7.2"
@@ -70,4 +68,10 @@ dependencies {
     //gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    // room
+    def room_version = "2.2.4"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    // Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
 }

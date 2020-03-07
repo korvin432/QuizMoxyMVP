@@ -48,6 +48,7 @@ class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView {
         startButton.setOnClickListener {
             val bundle = bundleOf(
                 "categoryId" to categoryId,
+                "categoryName" to categorySpinner.selectedItem.toString(),
                 "difficulty" to difficultySpinner.selectedItem.toString().toLowerCase()
             )
             navController.navigate(

@@ -1,32 +1,27 @@
 package com.mindyapps.android.quizmoxymvp.ui.quiz
 
+import android.opengl.Visibility
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
+import com.google.android.material.snackbar.Snackbar
 
 import com.mindyapps.android.quizmoxymvp.R
 import com.mindyapps.android.quizmoxymvp.mvp.models.Quiz
 import com.mindyapps.android.quizmoxymvp.mvp.presenters.QuizPresenter
-import com.mindyapps.android.quizmoxymvp.mvp.presenters.SelectQuizPresenter
 import com.mindyapps.android.quizmoxymvp.mvp.views.QuizView
-import com.mindyapps.android.quizmoxymvp.ui.adapters.SpinnerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
 class QuizFragment : MvpAppCompatFragment(), QuizView, View.OnClickListener {
-
-    //TODO: Заменить 9 на константу
 
     @JvmField
     @InjectPresenter
@@ -40,13 +35,13 @@ class QuizFragment : MvpAppCompatFragment(), QuizView, View.OnClickListener {
     private lateinit var questionsList: List<Quiz>
 
     private var categoryId = 0
-    private var questionNumber = 0
-    private var rightAnswers = 0
+    private lateinit var categoryName: String
     private var isTrue: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         categoryId = arguments!!.getInt("categoryId")
+        categoryName = arguments!!.getString("categoryName","")
         difficulty = arguments!!.getString("difficulty", "easy")
     }
 
@@ -66,16 +61,16 @@ class QuizFragment : MvpAppCompatFragment(), QuizView, View.OnClickListener {
     }
 
     override fun setQuizData() {
-        Log.d("qwwe", "setQuizData")
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             questionsList = presenter!!.getQuizData(categoryId, difficulty)
+            presenter!!.questionNumber = 0
         }
     }
 
-    override fun setQuestion(list: List<Quiz>) {
-        Log.d("qwwe", "setQuestion")
-        val question = list[questionNumber]
-        questionNumberText.text = getString(R.string.question_number_text,(questionNumber + 1).toString())
+    override fun setQuestion() {
+        val question = presenter!!.questionsList[presenter!!.questionNumber]
+        questionNumberText.text =
+            getString(R.string.question_number_text, (presenter!!.questionNumber + 1).toString())
         questionText.text = HtmlCompat.fromHtml(
             question.questionText, HtmlCompat.FROM_HTML_MODE_LEGACY
         ).toString()
@@ -86,28 +81,32 @@ class QuizFragment : MvpAppCompatFragment(), QuizView, View.OnClickListener {
         when (p0!!.id) {
             R.id.true_button -> {
                 if (isTrue) {
-                    Log.d("qwwe", "GOOD JOB")
-                    rightAnswers++
+                    presenter!!.rightAnswers++
+                    Snackbar.make(p0, "Right!", Snackbar.LENGTH_SHORT).show()
                 } else {
-                    Log.d("qwwe", "BAD JOB")
+                    Snackbar.make(p0, "Wrong!", Snackbar.LENGTH_SHORT).show()
                 }
             }
             R.id.false_button -> {
                 if (!isTrue) {
-                    Log.d("qwwe", "GOOD JOB")
-                    rightAnswers++
+                    presenter!!.rightAnswers++
+                    Snackbar.make(p0, "Right!", Snackbar.LENGTH_SHORT).show()
                 } else {
-                    Log.d("qwwe", "BAD JOB")
+                    Snackbar.make(p0, "Wrong!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
 
-        questionNumber++
-        if (questionNumber <= 9) {
-            setQuestion(questionsList)
+        presenter!!.questionNumber++
+        if (presenter!!.questionNumber < presenter!!.questionsList.size) {
+            setQuestion()
         } else {
             questionNumberText.text = getString(R.string.congratulations)
-            questionText.text = getString(R.string.right_answers) + " " + rightAnswers.toString()
+            questionText.text =
+                getString(R.string.right_answers) + ": " + presenter!!.rightAnswers.toString()
+            falseButton.visibility = View.GONE
+            trueButton.visibility = View.GONE
+            presenter!!.saveToDB(activity!!.applicationContext, categoryName, difficulty)
         }
 
     }
