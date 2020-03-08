@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="com.mindyapps.android.quizmoxymvp.ui.statistics.StatisticsFragment"
+        android:name="com.mindyapps.android.quizmoxymvp.ui.fragments.StatisticsFragment"
         android:label="@string/title_statistics"
         tools:layout="@layout/fragment_statistics" />
 
     <fragment
         android:id="@+id/navigation_select_quiz"
-        android:name="com.mindyapps.android.quizmoxymvp.ui.select_quiz.SelectQuizFragment"
+        android:name="com.mindyapps.android.quizmoxymvp.ui.fragments.SelectQuizFragment"
         android:label="@string/title_select_quiz"
         tools:layout="@layout/fragment_select_quiz" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.mindyapps.android.quizmoxymvp.ui.quiz.QuizFragment"
+        android:name="com.mindyapps.android.quizmoxymvp.ui.fragments.QuizFragment"
         android:label="@string/title_select_quiz"
         tools:layout="@layout/fragment_quiz">
         <argument

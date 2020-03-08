@@ -3,66 +3,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/select_param"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="Select parameters"
-            android:textSize="30sp" />
-
-
-        <TextView
-            android:id="@+id/select_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/select_param"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:text="Category"
-            android:textSize="24sp" />
-
-        <Spinner
-            android:id="@+id/category_spinner"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/select_category" />
+            android:layout_centerVertical="true"
+            android:padding="16dp">
 
+            <TextView
+                android:id="@+id/select_param"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Select parameters"
+                android:textColor="@color/colorText"
+                android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/select_difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/category_spinner"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:text="Difficulty"
-            android:textSize="24sp" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/options_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/select_param"
+                android:layout_marginTop="30dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
-        <Spinner
-            android:id="@+id/difficulty_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/select_difficulty"
-            android:entries="@array/difficulty" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
 
-        <Button
-            android:id="@+id/start_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/difficulty_spinner"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:text="Start" />
+                    <TextView
+                        android:id="@+id/select_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:textColor="@color/colorText"
+                        android:textSize="24sp" />
 
+                    <Spinner
+                        android:id="@+id/category_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_category" />
+
+                    <TextView
+                        android:id="@+id/select_difficulty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/category_spinner"
+                        android:layout_marginTop="60dp"
+                        android:text="Difficulty"
+                        android:textColor="@color/colorText"
+                        android:textSize="24sp" />
+
+                    <Spinner
+                        android:id="@+id/difficulty_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_difficulty"
+                        android:entries="@array/difficulty" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/start_button"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@id/options_card"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:text="Start"
+                android:textSize="21sp" />
+
+        </RelativeLayout>
     </RelativeLayout>
-
 </androidx.core.widget.NestedScrollView>
+

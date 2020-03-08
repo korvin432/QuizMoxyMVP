@@ -16,4 +16,6 @@
     <string name="right_answers">Right answers</string>
     <string name="question">Question</string>
     <string name="question_number_text">Question %1$s</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
 </resources>

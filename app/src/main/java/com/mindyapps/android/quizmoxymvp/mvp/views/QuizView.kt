@@ -15,4 +15,9 @@ interface QuizView : MvpView {
     @StateStrategyType(SkipStrategy::class)
     fun setQuizData()
 
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun setQuizDone()
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun hideSaveButton()
 }

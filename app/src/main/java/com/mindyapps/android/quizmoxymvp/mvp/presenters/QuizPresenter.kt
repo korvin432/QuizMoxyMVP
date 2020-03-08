@@ -22,6 +22,7 @@ import java.util.*
 class QuizPresenter : MvpPresenter<QuizView>() {
     var questionNumber = 0
     var rightAnswers = 0
+    var quizDone = false
     var questionsList: List<Quiz> = LinkedList()
 
     override fun onFirstViewAttach() {
@@ -29,20 +30,22 @@ class QuizPresenter : MvpPresenter<QuizView>() {
         viewState.setQuizData()
     }
 
-    suspend fun getQuizData(id: Int, difficulty: String):List<Quiz> {
+    suspend fun setQuizData(id: Int, difficulty: String) {
         val quizApi = QuizApi()
-        val currentQuizResult = quizApi.getQuizResult(id, difficulty)
+        val currentQuizResult = quizApi.getQuizResult(id, difficulty.toLowerCase())
         questionsList = currentQuizResult.quiz
-        withContext(Main){
+        withContext(Main) {
             viewState.setQuestion()
         }
-        return questionsList
     }
 
-    fun saveToDB(context: Context, categoryName: String, difficulty: String){
+    suspend fun saveToDB(context: Context, categoryName: String, difficulty: String) {
         val db = QuizDatabase(context)
         CoroutineScope(IO).launch {
             db.quizDao().insertAll(QuizEntity(null, categoryName, difficulty, rightAnswers))
+        }
+        withContext(Main){
+            viewState.hideSaveButton()
         }
     }
 

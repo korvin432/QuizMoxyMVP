@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/quiz_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="General knowledge"
+                android:textSize="26sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/quiz_difficulty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="easy"
+                android:layout_below="@id/quiz_category"
+                android:textSize="21sp"/>
+
+            <TextView
+                android:id="@+id/quiz_right_answers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/right_answers"
+                android:layout_below="@id/quiz_difficulty"
+                android:textSize="21sp"/>
+
+        </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+

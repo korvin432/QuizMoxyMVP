@@ -1,7 +1,6 @@
-package com.mindyapps.android.quizmoxymvp.ui.select_quiz
+package com.mindyapps.android.quizmoxymvp.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +13,6 @@ import com.mindyapps.android.quizmoxymvp.mvp.models.Category
 import com.mindyapps.android.quizmoxymvp.mvp.views.SelectQuizView
 import com.mindyapps.android.quizmoxymvp.mvp.presenters.SelectQuizPresenter
 import com.mindyapps.android.quizmoxymvp.ui.adapters.SpinnerAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
@@ -33,6 +29,7 @@ class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView {
 
     lateinit var navController: NavController
     private var categoryId: Int = -1
+    private lateinit var categoryName: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,8 +45,8 @@ class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView {
         startButton.setOnClickListener {
             val bundle = bundleOf(
                 "categoryId" to categoryId,
-                "categoryName" to categorySpinner.selectedItem.toString(),
-                "difficulty" to difficultySpinner.selectedItem.toString().toLowerCase()
+                "categoryName" to categoryName,
+                "difficulty" to difficultySpinner.selectedItem.toString()
             )
             navController.navigate(
                 R.id.action_navigation_select_quiz_to_quizFragment,
@@ -60,6 +57,7 @@ class SelectQuizFragment : MvpAppCompatFragment(), SelectQuizView {
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 categoryId = adapter.getItem(p2).id
+                categoryName = adapter.getItem(p2).name
                 presenter!!.selectedPosition = p2
             }
 
